@@ -1,22 +1,15 @@
-![TradeZone](https://github.com/haitam-assadi/SoftwareEngineering-11A/blob/version_2_master/TradeZone.png)
+# Trade-Zone
 
-
-## Group Members:
- Ahmad Essa , Haitham Al Salih , Moslem Asaad , Baraa Mahameed, Adel Watted, Moamen Mawasi
- 
-
-# Trading System
-
-A trading system (market) is a system that enables a trading infrastructure between sellers and buyers. The system is complex
-From a collection of stores. A store contains identifying details and product inventory, where each product has different characteristics. my users
-The system visits the market for buying, selling, and management purposes. System users play roles
+Trade-Zone is a system that enables a trading infrastructure between sellers and buyers. The system is complex
+From a collection of stores. A store contains identifying details and product inventory, where each product has different characteristics. Users
+visit the market for buying, selling, and management purposes. System users play roles
 Different in the system: sellers, buyers and managers.
 
 ## Installation And Running
 
 To install and run the project, please follow these steps:
 
-1. Clone the repository: https://github.com/haitam-assadi/SoftwareEngineering-11A
+1. Clone the repository: https://github.com/Adelwatt/Trade-Zone.git
 2. Install the Spting Boot packages.
 3. Run the project by running the SpringbootHtmlApplication class in Intellij and opening http://localhost:8080/ in WEB.
 
