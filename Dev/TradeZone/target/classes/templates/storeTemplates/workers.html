@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Workers</title>
+</head>
+<body>
+<div id="workers" th:fragment="workers(myName, store, workers, mRole)">
+    <main class="container col-md-10">
+<!--        th:if="${mRole == 1 || mRole == 2}"-->
+        <div class="row justify-content-between g-5 mt-3">
+            <!--            appoint member-->
+            <div th:if="${mRole == 1 || mRole == 2}" class="col-md-5 order-md-last">
+                <form action="appointMember" method="post">
+                    <div>
+                        <!--                    <label for="storeName" class="form-label">Search for stores:</label>-->
+                        <input type="text" class="form-control" id="memberName" name="memberName" placeholder="enter member name">
+                    </div>
+
+                    <div class="my-3">
+                        <div class="form-check mb-2">
+                            <input id="appointAsOwner" value="appointAsOwner" name="appointAs" type="radio" class="form-check-input" checked>
+                            <label class="form-check-label" for="appointAsOwner">Appoint As Owner</label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input id="appointAsManager" value="appointAsManager" name="appointAs" type="radio" class="form-check-input">
+                            <label class="form-check-label" for="appointAsManager">Appoint As Manager</label>
+                        </div>
+                    </div>
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" value="" id="invalidCheckAppoint" required>
+                        <label class="form-check-label" for="invalidCheckAppoint">
+                            <button type="submit" class="w-100 btn btn-outline-primary">Appoint</button>
+                        </label>
+                    </div>
+                </form>
+            </div>
+
+            <!--            Workers-->
+            <div class="col-md-6">
+                <div th:each="role : ${workers.keySet}">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 th:text="${role}"></h5>
+                        </div>
+                        <ul th:each="worker : ${workers.get(role)}" class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <h5 class="col" th:text="${worker.name}"></h5>
+                                    <form th:if="${myName != worker.name && role == 'Owners' && (mRole == 1 || mRole == 2)}" class="col-auto" action="removeOwner" method="post">
+                                        <input type="hidden" name="memberName" th:value="${worker.name}">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="invalidCheckRemove" required>
+                                            <label class="form-check-label w-100" for="invalidCheckRemove">
+                                                <button type="submit" class="btn btn-outline-danger">Remove</button>
+                                            </label>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div th:if="${role == 'Managers'}">
+                                    <h6 style="color:orange">Permissions:</h6>
+
+<!--                                    founder / owner -->
+                                    <form th:if="${mRole == 1 || mRole == 2}" action="changeManagerPermissions" method="post">
+                                        <input type="hidden" name="managerName" th:value="${worker.name}">
+                                        <div th:each="pID : ${worker.permissions.keySet}">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" th:value="${pID}" th:name="'perms'" th:id="${worker.name + pID}" th:checked="${worker.hasPermission(pID)}">
+                                                <label class="form-check-label" th:for="${worker.name + pID}">
+                                                    <h6 th:text="${worker.getPermission(pID)}"></h6>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="changePerms" required>
+                                            <label class="form-check-label" for="changePerms">
+                                                <button type="submit" class="btn btn-outline-success">Save</button>
+                                            </label>
+                                        </div>
+                                    </form>
+
+<!--                                    manager-->
+                                    <div th:if="${mRole == 3}" th:each="pID : ${worker.permissions.keySet}">
+                                        <h6 th:if="${worker.hasPermission(pID)}" th:text="${worker.getPermission(pID)}"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+</div>
+
+</body>
+</html>
